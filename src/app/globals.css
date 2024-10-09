@@ -25,3 +25,8 @@ body {
     text-wrap: balance;
   }
 }
+
+.container {
+   @apply max-w-[70rem];
+   @apply mx-auto;
+}
