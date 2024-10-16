@@ -1,8 +1,13 @@
+import { RegisterForm } from "@/app/components/auth/register-form";
+
+export const metadata = {
+  title: 'Crear cuenta',
+  description: 'Registrare y empieza a realizar tus compras',
+};
+
 
 export default function RegisterPage() {
   return (
-    <div>
-      <h1>RegisterPage</h1>
-    </div>
+    <RegisterForm />
   );
 }
