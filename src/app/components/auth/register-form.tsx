@@ -1,8 +1,13 @@
 'use client'
+import { login } from '@/store/auth/authSlice'
+import { AppDispatch } from '@/store/store'
 import { isValidEmail } from '@/util/validator'
 import axios from 'axios'
+import { setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 interface FormRegisterData {
     name: string
@@ -24,18 +29,32 @@ export const RegisterForm = () => {
     const passwordRef = useRef({})
     passwordRef.current = watch('password')
 
+    const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
+
+
 
     const handleRegisterSubmit = async(formData: FormRegisterData) => {
         console.log(formData)
     
-        // TODO: Llamar nuestro endpoint de registro
-
+        // Llamar nuestro endpoint de registro
         try {
             const { data } = await axios.post('/api/register', formData)
-            console.log(data)
+                        
+            // Guardar en nuestras cookies el token
+            setCookie('session-cart-next', data.token )
+
+            // Hacer el dispatch del usuario autenticado
+            dispatch( login( data.user ) )
+
+            router.push('/')
+            router.refresh()
         
         } catch (error) {
-            console.log(error)
+            if( axios.isAxiosError(error) ){
+                const msg = error.response?.data.msg
+                console.log(msg)
+            }
         }
         
     }

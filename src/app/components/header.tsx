@@ -1,5 +1,6 @@
 import { categories } from "@/constant/categories"
 import Link from "next/link"
+import { AuthUser } from "./auth/auth-user"
 
 
 export const Header = () => {
@@ -19,9 +20,7 @@ export const Header = () => {
                         <li>
                             <Link href="/carrito">Carrito</Link>
                         </li>
-                        <li>
-                            <Link href="/iniciar-sesion">Ingresar</Link>
-                        </li>
+                        <AuthUser />
                     </ul>
                 </nav>
             </div>

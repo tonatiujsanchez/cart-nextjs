@@ -54,6 +54,7 @@ export async function POST( request:NextRequest ){
 
         //  Enviar un correo de confirmación
     
+
         
         // Crear un token de sesión 
         const token = signToken( newUser._id, newUser.role )
