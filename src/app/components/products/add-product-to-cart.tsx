@@ -1,6 +1,8 @@
 "use client"
 
+import { addProducToCart } from "@/actions/cart"
 import { IProduct } from "@/interface/IProduct"
+import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 interface Props {
@@ -11,6 +13,7 @@ export const AddProducToCart = ({ children, product }: Props) => {
 
     const [sizeSelected, setSizeSelected] = useState<string>('')
     const [quantity, setQuantity] = useState(1)
+    const router = useRouter()
 
 
     const handleSetAddQuantity = () => {
@@ -25,7 +28,7 @@ export const AddProducToCart = ({ children, product }: Props) => {
         }
     }
 
-    const handleAddProductToCard = () => {
+    const handleAddProductToCard = async() => {
 
         if( sizeSelected === '' ){
             return console.log('Seleccione una talla')
@@ -35,6 +38,9 @@ export const AddProducToCart = ({ children, product }: Props) => {
             quantity,
             size: sizeSelected
         })
+
+        await addProducToCart( product._id!, quantity, sizeSelected )
+        router.refresh()
     }
 
     return (

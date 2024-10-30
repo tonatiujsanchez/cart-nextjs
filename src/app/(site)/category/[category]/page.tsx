@@ -3,7 +3,8 @@
 
 import { ProductCard } from "@/app/components/products/product-card";
 import { categories } from "@/constant/categories";
-import { products } from "@/data/products";
+import { connectDB } from "@/libs/mongodb";
+import Product from "@/model/Product";
 import { notFound } from "next/navigation";
 
 interface Prop {
@@ -11,7 +12,7 @@ interface Prop {
         category: string
     }
 }
-export default function CategoryPage({ params }: Prop) {
+export default async function CategoryPage({ params }: Prop) {
 
     const categoryBySlug = categories.find(category => category.slug === params.category)
 
@@ -19,7 +20,8 @@ export default function CategoryPage({ params }: Prop) {
         notFound()
     }
 
-    const productsByCategory = products.filter(product => product.category === params.category)
+    await connectDB()
+    const productsByCategory = await Product.find({ category: params.category })
 
     return (
         <main className="py-10 container">

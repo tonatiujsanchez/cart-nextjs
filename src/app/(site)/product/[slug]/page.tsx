@@ -1,5 +1,7 @@
 import { AddProducToCart } from "@/app/components/products/add-product-to-cart";
-import { products } from "@/data/products";
+import { connectDB } from "@/libs/mongodb";
+// import { products } from "@/data/products";
+import Product from "@/model/Product";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -8,10 +10,12 @@ interface Props {
         slug: string
     }
 }
-export default function ProductDetailsPage({ params }: Props) {
+export default async function ProductDetailsPage({ params }: Props) {
 
-    const product = products.find(product => product.slug === params.slug)
+    await connectDB()
+    const product = await Product.findOne({ slug: params.slug })
 
+    console.log(product)
     if (!product) {
         notFound()
     }
